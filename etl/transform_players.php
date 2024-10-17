@@ -8,10 +8,12 @@ error_reporting(E_ALL);
 include_once('config.php');
 
 // JSON-Daten aus dem extract.php Skript abrufen
-$jsonData = include('extract.php');
+$data = include('extract_players.php');
+
+print_r($data);
 
 // JSON-Daten dekodieren
-$data = json_decode($jsonData, true);
+// $data = json_decode($jsonData, true);
 
 // Überprüfen, ob die Daten erfolgreich dekodiert wurden
 if (json_last_error() !== JSON_ERROR_NONE) {
@@ -21,30 +23,36 @@ if (json_last_error() !== JSON_ERROR_NONE) {
 // Transformierte Daten vorbereiten
 $transformedData = [];
 
+
+echo "<pre>";
+print_r($transformedData);
+echo "</pre>";
+
 // Überprüfen, ob die benötigten Daten vorhanden sind
 if (isset($data['response']) && is_array($data['response'])) {
-    foreach ($data['response'] as $leagueData) {
+    foreach ($data['response'] as $playersData) {
 
 
         // Überprüfen, ob die Struktur der API-Daten korrekt ist
-        if (isset($leagueData['league']) && isset($leagueData['country'])) {
+        if (isset($playersData['player']) && isset($playersData['statistics'])) {
             $transformedData[] = [
-                'league_id' => $leagueData['league']['id'],
-                'league_name' => $leagueData['league']['name'],
-                'league_type' => $leagueData['league']['type'],  // Beispielhaft den ersten Season-Eintrag verwenden
-                'country_name' => $leagueData['country']['name'],
-                'country_code' => $leagueData['country']['code'],
+                'player_id' => $playersData['player']['id'],
+                'player_name' => $playersData['player']['name'],
+                'player_nationality' => $playersData['player']['nationality'],
+                'player_goals' => $playersData['statistics']['goals']['total'],
+                'player_assists' => $playersData['statistics']['goals']['assists'],
                  ];
         }
     }
 } else {
     die("Unerwartete API-Antwort: 'response' wurde nicht gefunden.");
 }
-/* echo "<pre>";
+ /* echo "<pre>";
 print_r($transformedData);
 echo "</pre>"; */
+
 // SQL Insert Statement vorbereiten
-$sql = "INSERT INTO `leagues` (`id`, `name`, `type`, `country_name`, `country_code`) VALUES (?,?,?,?,?)";
+$sql = "INSERT INTO `players` (`id`, `name`, `nationality`, `goals`, `assists`) VALUES (?,?,?,?,?)";
 
 try {
     // Verbindung zur Datenbank herstellen (Datenbankname, Benutzername und Passwort anpassen)
@@ -57,11 +65,11 @@ try {
     // Daten in die Datenbank einfügen
     foreach ($transformedData as $dataRow) {
         $stmt->execute([
-            $dataRow['league_id'],
-            $dataRow['league_name'],
-            $dataRow['league_type'],
-            $dataRow['country_name'],
-            $dataRow['country_code']
+            $dataRow['player_id'],
+            $dataRow['player_name'],
+            $dataRow['player_nationality'],
+            $dataRow['player_goals'],
+            $dataRow['player_assists']
         ]);
     }
 
