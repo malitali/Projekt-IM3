@@ -15,7 +15,7 @@ $request->setRequestUrl('https://v3.football.api-sports.io/leagues');
 $request->setRequestMethod('GET');
 $request->setHeaders(array(
     'x-rapidapi-host' => 'v3.football.api-sports.io',
-    'x-rapidapi-key' => '138eafdb50adc36eca03a04c329b59eb'
+    'x-rapidapi-key' => 'ffa54e94150fc112f27aa4d0a36e240a'
 ));
 
 $client->enqueue($request)->send();

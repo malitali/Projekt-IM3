@@ -1,67 +1,63 @@
- <?php
-
-
-/*
-$client = new http\Client;
-$request = new http\Client\Request;
-
-$request->setRequestUrl('https://v3.football.api-sports.io/players/topscorers');
-$request->setRequestMethod('GET');
-$request->setQuery(new http\QueryString(array(
-	'season' => '2020',
-	'league' => '61'
-)));
-
-$request->setHeaders(array(
-	'x-rapidapi-host' => 'v3.football.api-sports.io',
-	'x-rapidapi-key' => '0175d8f1cb54f362e35dc7eb59ad0275'
-));
-
-$client->enqueue($request)->send();
-$response = $client->getResponse();
-
-echo $response->getBody();
-*/
-?> 
-
-
 
 <?php
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-// Stellen Sie sicher, dass die HTTP-Erweiterung installiert ist
 if (!class_exists('http\Client')) {
-    die("Die PHP-Erweiterung 'pecl_http' ist nicht installiert.");
+    die("The PHP extension 'pecl_http' is not installed.");
 }
 
-$client = new http\Client;
-$request = new http\Client\Request;
+$seasons = [2020, 2021, 2022, 2023, 2024];  // Define the seasons you want to fetch data for
+$league = 207;  // Define the league
 
-$request->setRequestUrl('https://v3.football.api-sports.io/players/topscorers');
-$request->setRequestMethod('GET');
-$request->setQuery(new http\QueryString(array(
-	'season' => '2022',
-	'league' => '135'
-)));
+$allData = [];
 
-$request->setHeaders(array(
-	'x-rapidapi-host' => 'v3.football.api-sports.io',
-	'x-rapidapi-key' => '138eafdb50adc36eca03a04c329b59eb'
-));
+foreach ($seasons as $season) {
+    // Create new http\Client and http\Request objects for each iteration
+    $client = new http\Client;
+    $request = new http\Client\Request;
 
-$client->enqueue($request)->send();
-$response = $client->getResponse();
+    $request->setRequestMethod('GET');
+    $request->setRequestUrl('https://v3.football.api-sports.io/players/topscorers');
+    $request->setQuery(new http\QueryString(array(
+        'season' => $season,
+        'league' => $league
+    )));
+    
+    $request->setHeaders(array(
+        'x-rapidapi-host' => 'v3.football.api-sports.io',
+        'x-rapidapi-key' => 'ffa54e94150fc112f27aa4d0a36e240a'  // Replace with your actual API key
+    ));
 
+    // Send the request and get the response
+    $client->enqueue($request)->send();
+    $response = $client->getResponse();
 
-echo $response->getBody();
-
-
-// Überprüfen Sie den HTTP-Statuscode
-if ($response->getResponseCode() !== 200) {
-    die("API-Anfrage fehlgeschlagen mit Statuscode: " . $response->getResponseCode());
+    // Check if the response is successful
+    if ($response->getResponseCode() !== 200) {
+        die("API request failed with status code: " . $response->getResponseCode());
+    }
+    
+    // Decode the API response into an array
+    $responseData = json_decode($response->getBody(), true);
+    
+    // Add the season to the data
+    if (isset($responseData['response'])) {
+        foreach ($responseData['response'] as &$playerData) {
+            $playerData['season'] = $season;  // Add the current season to each player's data
+        }
+        // Merge with allData
+        $allData = array_merge($allData, $responseData['response']);
+    }
 }
-//print_r($response->getBody());
-return $response->getBody();
+
+print_r($allData);
+
+// Return all the combined data
+return json_encode(['response' => $allData]);
+
+
+
 ?>

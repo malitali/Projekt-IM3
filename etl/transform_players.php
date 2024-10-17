@@ -1,81 +1,89 @@
 <?php
 
-// Fehleranzeige aktivieren
+
+
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include_once('config.php');
 
-// JSON-Daten aus dem extract.php Skript abrufen
-$data = include('extract_players.php');
+// JSON data from extract_players.php
+$jsonData = include('extract_players.php');
 
-print_r($data);
+// Decode the JSON data into an associative array
+$data = json_decode($jsonData, true);
 
-// JSON-Daten dekodieren
-// $data = json_decode($jsonData, true);
-
-// Überprüfen, ob die Daten erfolgreich dekodiert wurden
+// Check if the JSON decoding was successful
 if (json_last_error() !== JSON_ERROR_NONE) {
     die("Fehler beim Dekodieren der JSON-Daten: " . json_last_error_msg());
 }
 
-// Transformierte Daten vorbereiten
+// Transformed data
 $transformedData = [];
 
-
-echo "<pre>";
-print_r($transformedData);
-echo "</pre>";
-
-// Überprüfen, ob die benötigten Daten vorhanden sind
 if (isset($data['response']) && is_array($data['response'])) {
     foreach ($data['response'] as $playersData) {
-
-
-        // Überprüfen, ob die Struktur der API-Daten korrekt ist
-        if (isset($playersData['player']) && isset($playersData['statistics'])) {
+        // Check if the data structure is correct
+        if (isset($playersData['player']) && isset($playersData['statistics'][0]['goals']) && isset($playersData['season'])) {
             $transformedData[] = [
-                'player_id' => $playersData['player']['id'],
+                'player_id_api' => $playersData['player']['id'], // Store player ID from the API
                 'player_name' => $playersData['player']['name'],
                 'player_nationality' => $playersData['player']['nationality'],
-                'player_goals' => $playersData['statistics']['goals']['total'],
-                'player_assists' => $playersData['statistics']['goals']['assists'],
-                 ];
+                'player_goals' => $playersData['statistics'][0]['goals']['total'] ?? 0,
+                'player_assists' => $playersData['statistics'][0]['goals']['assists'] ?? 0,
+                'season' => $playersData['season']  // Add the season data
+            ];
         }
     }
 } else {
     die("Unerwartete API-Antwort: 'response' wurde nicht gefunden.");
 }
- /* echo "<pre>";
-print_r($transformedData);
-echo "</pre>"; */
 
-// SQL Insert Statement vorbereiten
-$sql = "INSERT INTO `players` (`id`, `name`, `nationality`, `goals`, `assists`) VALUES (?,?,?,?,?)";
+echo "<pre>";
+print_r($transformedData);
+echo "</pre>";
+
+// Prepare SQL Insert Statement
+$sql = "INSERT INTO `players` (`name`, `nationality`, `goals`, `assists`, `player_ID_API`, `season`) 
+        VALUES (?,?,?,?,?,?)
+        ON DUPLICATE KEY UPDATE 
+            `name` = VALUES(`name`),
+            `nationality` = VALUES(`nationality`),
+            `goals` = VALUES(`goals`),
+            `assists` = VALUES(`assists`),
+            `season` = VALUES(`season`)"; // Update season in case of conflicts
 
 try {
-    // Verbindung zur Datenbank herstellen (Datenbankname, Benutzername und Passwort anpassen)
+    // Connect to the database (adjust with your credentials)
     $pdo = new PDO($dsn, $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // SQL Query vorbereiten
+    // Prepare SQL query
     $stmt = $pdo->prepare($sql);
 
-    // Daten in die Datenbank einfügen
+    // Insert data into the database
     foreach ($transformedData as $dataRow) {
         $stmt->execute([
-            $dataRow['player_id'],
             $dataRow['player_name'],
             $dataRow['player_nationality'],
             $dataRow['player_goals'],
-            $dataRow['player_assists']
+            $dataRow['player_assists'],
+            $dataRow['player_id_api'], // Use the player_ID_API from the API
+            $dataRow['season']  // Insert the season data
         ]);
     }
 
-    echo "Datensätze erfolgreich eingefügt!";
+    echo "Datensätze erfolgreich eingefügt oder aktualisiert!";
 } catch (PDOException $e) {
     echo "Fehler bei der Datenbankoperation: " . $e->getMessage();
 }
+
+
+
+
 ?>
+
+
 
