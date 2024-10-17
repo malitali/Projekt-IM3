@@ -1,0 +1,43 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.podium {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.podium-container {
+    background: #007BFF;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1;
+    margin: 0 10px;
+    text-align: center;
+}
+
+.other-countries {
+    list-style-type: none;
+    padding: 0;
+}
+
+.other-countries li {
+    background: #E9ECEF;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 4px;
+}

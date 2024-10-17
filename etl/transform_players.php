@@ -1,8 +1,5 @@
 <?php
 
-
-
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -46,44 +43,42 @@ print_r($transformedData);
 echo "</pre>";
 
 // Prepare SQL Insert Statement
-$sql = "INSERT INTO `players` (`name`, `nationality`, `goals`, `assists`, `player_ID_API`, `season`) 
-        VALUES (?,?,?,?,?,?)
-        ON DUPLICATE KEY UPDATE 
-            `name` = VALUES(`name`),
-            `nationality` = VALUES(`nationality`),
-            `goals` = VALUES(`goals`),
-            `assists` = VALUES(`assists`),
-            `season` = VALUES(`season`)"; // Update season in case of conflicts
+$insertSql = "INSERT INTO `players` (`name`, `nationality`, `goals`, `assists`, `player_ID_API`, `season`) 
+              VALUES (?,?,?,?,?,?)";
+
+$selectSql = "SELECT COUNT(*) FROM `players` WHERE `player_ID_API` = ? AND `season` = ?";
 
 try {
     // Connect to the database (adjust with your credentials)
     $pdo = new PDO($dsn, $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Prepare SQL query
-    $stmt = $pdo->prepare($sql);
+    // Prepare SQL statements
+    $insertStmt = $pdo->prepare($insertSql);
+    $selectStmt = $pdo->prepare($selectSql);
 
     // Insert data into the database
     foreach ($transformedData as $dataRow) {
-        $stmt->execute([
-            $dataRow['player_name'],
-            $dataRow['player_nationality'],
-            $dataRow['player_goals'],
-            $dataRow['player_assists'],
-            $dataRow['player_id_api'], // Use the player_ID_API from the API
-            $dataRow['season']  // Insert the season data
-        ]);
+        // Check if the combination of player_ID_API and season exists
+        $selectStmt->execute([$dataRow['player_id_api'], $dataRow['season']]);
+        $exists = $selectStmt->fetchColumn(); // Get the count of existing records
+
+        if ($exists == 0) {
+            // If it doesn't exist, insert the new record
+            $insertStmt->execute([
+                $dataRow['player_name'],
+                $dataRow['player_nationality'],
+                $dataRow['player_goals'],
+                $dataRow['player_assists'],
+                $dataRow['player_id_api'], // Use the player_ID_API from the API
+                $dataRow['season']  // Insert the season data
+            ]);
+        }
     }
 
-    echo "Datensätze erfolgreich eingefügt oder aktualisiert!";
+    echo "Datensätze erfolgreich eingefügt!";
 } catch (PDOException $e) {
     echo "Fehler bei der Datenbankoperation: " . $e->getMessage();
 }
 
-
-
-
 ?>
-
-
-
