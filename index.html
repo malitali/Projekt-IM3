@@ -1,37 +1,42 @@
 
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Scorers</title>
-</head>
-<body>
-    <h1>Top Scorers</h1>
-    <ul id="scorer-list"></ul>
-
-    <script src="js/script.js"></script>
-</body>
-</html> -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Scorers</title>
-    
+    <title>Top Scorers by Nationality</title>
     <link rel="stylesheet" href="css/styles.css"> <!-- Adjust the path as necessary -->
-
 </head>
 <body>
-    <h1>Top Scorers by Nationality</h1>
-    <div id="podium">
-        <h2>Top Nationalities</h2>
+    <div class="container">
+        <h1>Top Scorers by Nationality</h1>
+        <label for="season-dropdown">Select a Season:</label>
+        <select id="season-dropdown"></select> <!-- Dropdown to select season -->
+
+        <div id="podium">
+            <h2>Top Nationalities</h2>
+            <div class="podium">
+                <div class="podium-container" id="podium-1">
+                    <h3>Nationality 1</h3>
+                    <p>Goals: X</p>
+                </div>
+                <div class="podium-container" id="podium-2">
+                    <h3>Nationality 2</h3>
+                    <p>Goals: Y</p>
+                </div>
+                <div class="podium-container" id="podium-3">
+                    <h3>Nationality 3</h3>
+                    <p>Goals: Z</p>
+                </div>
+            </div>
+        </div>
+        
+        <h3>Other Countries</h3>
+        <ul class="other-countries" id="other-countries"></ul>
     </div>
-    <h3>Other Countries</h3>
-    <ul id="other-countries"></ul>
 
     <script src="js/script.js"></script> <!-- Link to your JavaScript file -->
 </body>
 </html>
+

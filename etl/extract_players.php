@@ -1,6 +1,7 @@
 
 <?php
 
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -9,7 +10,7 @@ if (!class_exists('http\Client')) {
     die("The PHP extension 'pecl_http' is not installed.");
 }
 
-$seasons = [2020, 2021, 2022, 2023, 2024];  // Define the seasons you want to fetch data for
+$seasons = [2019, 2020, 2021, 2022, 2023, 2024];  // Define the seasons you want to fetch data for
 $league = 207;  // Define the league
 
 $allData = [];
@@ -57,7 +58,6 @@ print_r($allData);
 
 // Return all the combined data
 return json_encode(['response' => $allData]);
-
 
 
 ?>

@@ -14,30 +14,70 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#season-dropdown {
+    display: block;
+    margin: 0 auto 20px;
+    padding: 10px;
+    border: 1px solid #007BFF;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
 .podium {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Space between podium containers */
     margin-bottom: 20px;
 }
 
 .podium-container {
-    background: #007BFF;
+    background: #007BFF; /* Main color for podium */
     color: white;
     padding: 20px;
     border-radius: 8px;
     flex: 1;
-    margin: 0 10px;
+    margin: 0 5px; /* Adjusted margin for spacing */
     text-align: center;
 }
 
+.podium-container h3 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.podium-container p {
+    font-size: 20px;
+}
+
 .other-countries {
+    display: grid; /* Use grid layout for other countries */
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 10px; /* Space between boxes */
     list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
 .other-countries li {
-    background: #E9ECEF;
-    margin: 5px 0;
-    padding: 10px;
+    background: #E9ECEF; /* Light background for other countries */
+    padding: 15px;
     border-radius: 4px;
+    display: flex;
+    justify-content: space-between; /* Align text and goals */
+    align-items: center;
+}
+
+.other-countries li span {
+    font-weight: bold; /* Make goals bold */
 }
