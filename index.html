@@ -1,21 +1,30 @@
-
-
   <!DOCTYPE html>
 <html lang="en"> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top Scorers by Nationality</title>
+    <title>Top Scorers by Nation</title>
     <link rel="stylesheet" href="css/styles.css"> 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <h1>Top Scorers by Nationality</h1>
-        <label for="season-dropdown">Select a Season:</label>
-        <select id="season-dropdown"></select> 
 
+<header>
+        <div class="seasonSelect">
+            <label for="season-dropdown">Select a Season:</label>
+            <select id="season-dropdown"></select>     
+        </div>
+    </header>
+
+<body>
+     
+    <h1>Top Scorers by Nationality</h1>
+    
+        <div class="container">
+    
         <div id="podium">
-            <h2>Top Nationalities</h2>
+            <h2>Spieler aus diesen Ländern haben in der Schweizer Super League die meisten Tore erzielt</h2>
             <div class="podium">
                 <div class="podium-container" id="podium-1">
                     <h3>Nationality 1</h3>
@@ -32,7 +41,7 @@
             </div>
         </div>
         
-        <h3>Other Countries</h3>
+        <h2>Other Countries</h2>
         <ul class="other-countries" id="other-countries"></ul>
     </div>
 
