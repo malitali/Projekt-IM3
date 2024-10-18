@@ -87,11 +87,20 @@ Font: Uses the Google Font "Bebas Neue" for consistent typography across the web
 
 
 
-Notes:
-- wir hatten enorme probleme mit der API. Wir wurden mehrmals gesperrt und erreichten das call limit, wodurch wir lange zeit nicht weiter arbeiten konnten. Schlussendlich mussten wir für die API bezahlen um nicht in Zwei Tagen ein komplett neues Projekt auf die Beine zu stellen. Auf grund dieser Schwierigkeiten sind einige Funktionen (Darstellung zusätzlicher Daten in Dropdowns), sowie der Grossteil des Styling auf der Strecke geblieben. Zudem ist uns erst zu spät aufgefallen, dass die Flaggenicons-Sammlung, die wir für das Mockup bentzt haben, nicht Icons für jedes Land beinhaltet. Aus diesem Grund wird für einige Länder eine Placeholder Flagge angezeigt. Die Grundfunktionalität steht jedoch, wie oben erklärt.
-  
+Anmerkungen:
+
 - Daten werden im extract_players.php in die datenbank geladen. Deshalb existiert kein load.php
   
 - extract.php und transform.php sind für die funktion der website nicht mehr nötig, sind aber zur dokumentation drinnen gelassen worden. Die files sind für das laden der "league" Daten in der Datenbank gebruacht worden. diese daten wurden für eine frühere version der website gebraucht, sind in der finalen vesion aber nicht mehr notwendig.
 
- 
+
+Schwierigkeiten
+- wir hatten enorme probleme mit der API. Wir wurden mehrmals gesperrt und erreichten das call limit, wodurch wir lange zeit nicht weiter arbeiten konnten. Schlussendlich mussten wir für die API bezahlen um nicht in Zwei Tagen ein komplett neues Projekt auf die Beine zu stellen. Auf grund dieser Schwierigkeiten sind einige Funktionen (Darstellung zusätzlicher Daten in Dropdowns), sowie der Grossteil des Styling auf der Strecke geblieben. Zudem ist uns erst zu spät aufgefallen, dass die Flaggenicons-Sammlung, die wir für das Mockup bentzt haben, nicht Icons für jedes Land beinhaltet. Aus diesem Grund wird für einige Länder eine Placeholder Flagge angezeigt. Die Grundfunktionalität steht jedoch, wie oben erklärt.
+
+
+
+Learnings:
+- Besser darauf Achten, dass die gewählte API keine Probelem bereiten wird.
+- Wie Funktioniert ETL
+- Gebrauch von Chatgpt 4o mit Canvas
+- 
