@@ -14,70 +14,81 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
-    text-align: center;
-    color: #333;
-}
-
-label {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 10px;
+h1, h2, h3 {
     text-align: center;
 }
 
-#season-dropdown {
-    display: block;
-    margin: 0 auto 20px;
-    padding: 10px;
-    border: 1px solid #007BFF;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
+/* Podium container styling */
 .podium {
-    display: flex;
-    justify-content: space-between; /* Space between podium containers */
-    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three columns for the podium */
+    gap: 10px;
+    justify-items: center;
+    align-items: end; /* Align podium containers at the bottom */
+    position: relative;
+    height: 300px; /* Fixed height for the podium */
 }
 
+/* Common styles for podium containers */
 .podium-container {
-    background: #007BFF; /* Main color for podium */
+    background-color: #007BFF;
     color: white;
     padding: 20px;
     border-radius: 8px;
-    flex: 1;
-    margin: 0 5px; /* Adjusted margin for spacing */
     text-align: center;
+    width: 180px; /* Fixed width for podium containers */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+/* First place (center) - the tallest */
+.podium-1 {
+    background-color: gold;
+    height: 100px;
+    margin-bottom: 80px; /* Make it the highest */
 }
 
-.podium-container h3 {
-    margin: 0;
-    font-size: 24px;
+/* Second place (left) - slightly lower than first */
+.podium-2 {
+    background-color: silver;
+    height: 100px;
+    margin-bottom: 40px; /* Make it a bit lower */
 }
 
-.podium-container p {
-    font-size: 20px;
+
+
+
+/* Third place (right) - the lowest */
+.podium-3 {
+    background-color: #cd7f32; /* Bronze */
+    height: 100px;
+    margin-bottom: 0; /* Lowest */
 }
 
+/* Styling the other countries in two columns */
 .other-countries {
-    display: grid; /* Use grid layout for other countries */
+    display: grid;
     grid-template-columns: repeat(2, 1fr); /* Two columns */
-    gap: 10px; /* Space between boxes */
-    list-style-type: none;
+    gap: 10px;
     padding: 0;
     margin: 0;
 }
 
 .other-countries li {
-    background: #E9ECEF; /* Light background for other countries */
+    background: #E9ECEF;
     padding: 15px;
-    border-radius: 4px;
-    display: flex;
-    justify-content: space-between; /* Align text and goals */
-    align-items: center;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    list-style-type: none;
+    font-size: 1.1em;
+    text-align: center;
 }
 
-.other-countries li span {
-    font-weight: bold; /* Make goals bold */
+.flag-icon {
+    width: 40px;
+    height: auto;
+    margin-right: 10px;
+    vertical-align: middle;
 }
