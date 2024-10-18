@@ -118,7 +118,7 @@ h2 {
     padding: 10px;
     font-size: 1.1em;
     border-radius: 5px;
-    border: 10px solid rgb(24, 24, 24);
+    border: 5px solid rgb(24, 24, 24);
     background-color: rgba(246, 234, 234, 1);
     position: fixed;
     right: 20px;
@@ -127,11 +127,12 @@ h2 {
 }
 
 select {
-    padding: 2px;
+    padding: 1px;
     font-size: 1.1em;
     border-radius: 2px;
     border: 2px solid rgb(24, 24, 24);
     background-color: rgba(246, 234, 234, 1);
+    margin-left: 2px;
 }
 
 /* Media Queries for Responsiveness */
